@@ -112,11 +112,11 @@ const createCardsRestaurants = () => {
   cardsRestaurants.insertAdjacentHTML('beforeend', card);
 };
 
-const addToCart = (event) => {
+const addToCart = (event, card) => {
   if(event.target.closest('.button-add-cart')) {
     //login ? console.log('ADD TO CART') : toggleModalAuth();
     if(login) {
-      console.log('ADD TO CART');
+      console.log(card);
     } else {
       toggleModalAuth();
     }
@@ -149,17 +149,22 @@ const createCardGoods = () => {
   `);
   //cardsMenu.append(card);
   cardsMenu.insertAdjacentElement('beforeend', card);
-  card.addEventListener('click', addToCart);
+  // card.addEventListener('click', addToCart);
+  card.forEach(item => {
+    item.addEventListener('click', event => addToCart(event, card));
+
+  });
 };
 
 const openGoods = (event) => {
 
-  cartButton.style.display = 'flex';
+  //cartButton.style.display = 'flex';
 
   const target = event.target;
   const restaurant = target.closest('.card-restaurant');
   if(restaurant) {
     if(login) {
+      cartButton.style.display = 'flex';
       cardsMenu.textContent = '';
       restaurants.classList.add('hide');
       containerPromo.classList.add('hide');
@@ -174,6 +179,12 @@ const openGoods = (event) => {
     }  
   }  
 };
+
+// const restaurantCardsItems = {
+  
+
+
+// };
 
  
 cartButton.addEventListener('click', toggleModal);
