@@ -37,6 +37,11 @@ const authorized = () => {
     outBtn.style.display = '';
     userName.style.display = '';
     passwordInput.value = '';
+    cartButton.style.display = 'none';
+
+    restaurants.classList.remove('hide');
+    containerPromo.classList.remove('hide');
+    menu.classList.add('hide');
 
     outBtn.removeEventListener('click', logOut);
 
@@ -63,6 +68,7 @@ const notAuthorized = () => {
       } else {
         login = loginInput.value;
         localStorage.setItem('logDelivery', login);
+        cartButton.style.display = 'flex';
         toggleModalAuth();
 
         authBtn.removeEventListener('click', toggleModalAuth);
@@ -106,6 +112,17 @@ const createCardsRestaurants = () => {
   cardsRestaurants.insertAdjacentHTML('beforeend', card);
 };
 
+const addToCart = (event) => {
+  if(event.target.closest('.button-add-cart')) {
+    //login ? console.log('ADD TO CART') : toggleModalAuth();
+    if(login) {
+      console.log('ADD TO CART');
+    } else {
+      toggleModalAuth();
+    }
+  }  
+};
+
 const createCardGoods = () => {
 
   const card = document.createElement('div');
@@ -132,9 +149,13 @@ const createCardGoods = () => {
   `);
   //cardsMenu.append(card);
   cardsMenu.insertAdjacentElement('beforeend', card);
+  card.addEventListener('click', addToCart);
 };
 
 const openGoods = (event) => {
+
+  cartButton.style.display = 'flex';
+
   const target = event.target;
   const restaurant = target.closest('.card-restaurant');
   if(restaurant) {
@@ -153,7 +174,6 @@ const openGoods = (event) => {
     }  
   }  
 };
-
 
  
 cartButton.addEventListener('click', toggleModal);
