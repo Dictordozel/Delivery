@@ -149,11 +149,7 @@ const createCardGoods = () => {
   `);
   //cardsMenu.append(card);
   cardsMenu.insertAdjacentElement('beforeend', card);
-  // card.addEventListener('click', addToCart);
-  card.forEach(item => {
-    item.addEventListener('click', event => addToCart(event, card));
-
-  });
+  card.addEventListener('click', addToCart);
 };
 
 const openGoods = (event) => {
@@ -180,11 +176,16 @@ const openGoods = (event) => {
   }  
 };
 
-// const restaurantCardsItems = {
+const restaurantCardsItems = (data) => {
   
+  const cardItem = {
 
+    name: '',
+    
 
-// };
+  };
+
+};
 
  
 cartButton.addEventListener('click', toggleModal);
