@@ -112,50 +112,58 @@ const createCardsRestaurants = () => {
   cardsRestaurants.insertAdjacentHTML('beforeend', card);
 };
 
-const addToCart = (event, card) => {
-  if(event.target.closest('.button-add-cart')) {
-    //login ? console.log('ADD TO CART') : toggleModalAuth();
+const addToCart = (event) => {
     if(login) {
-      console.log(card);
+      const target = event.target.closest('.button-add-cart');
+      console.dir(target);
     } else {
       toggleModalAuth();
     }
-  }  
 };
 
 const createCardGoods = () => {
 
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.insertAdjacentHTML('beforeend', `
-    <img src="img/pizza-plus/pizza-classic.jpg" alt="image" class="card-image"/>
-    <div class="card-text">
-      <div class="card-heading">
-        <h3 class="card-title card-title-reg">Пицца Классика</h3>
-      </div>
-      <div class="card-info">
-        <div class="ingredients">Соус томатный, сыр «Моцарелла», сыр «Пармезан», ветчина, салями,
-          грибы.
+  const getRestaurantData = (data) => {
+    data.forEach((item) => {
+      const { id, name, description, price, image } = item;
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.insertAdjacentHTML('beforeend', `
+        <img src=${image} alt="image" class="card-image"/>
+        <div class="card-text">
+          <div class="card-heading">
+            <h3 class="card-title card-title-reg">${name}</h3>
+          </div>
+          <div class="card-info">
+            <div class="ingredients">${description}</div>
+          </div>
+          <div class="card-buttons">
+            <button class="button button-primary button-add-cart">
+              <span class="button-card-text">В корзину</span>
+              <span class="button-cart-svg"></span>
+            </button>
+            <strong class="card-price-bold">${price} ₽</strong>
+          </div>
         </div>
-      </div>
-      <div class="card-buttons">
-        <button class="button button-primary button-add-cart">
-          <span class="button-card-text">В корзину</span>
-          <span class="button-cart-svg"></span>
-        </button>
-        <strong class="card-price-bold">510 ₽</strong>
-      </div>
-    </div>
-  `);
-  //cardsMenu.append(card);
-  cardsMenu.insertAdjacentElement('beforeend', card);
-  card.addEventListener('click', addToCart);
+      `);
+      cardsMenu.insertAdjacentElement('beforeend', card);
+      card.addEventListener('click', addToCart); 
+    });  
+  };
+  
+  const getData = () => {
+    const restaurantName = 'db/tanuki.json';
+  
+  fetch(restaurantName)
+    .then(resp => resp.json())
+    .then(data => getRestaurantData(data));
+  };
+  
+  getData();
+ 
 };
 
 const openGoods = (event) => {
-
-  //cartButton.style.display = 'flex';
-
   const target = event.target;
   const restaurant = target.closest('.card-restaurant');
   if(restaurant) {
@@ -167,24 +175,11 @@ const openGoods = (event) => {
       menu.classList.remove('hide');
 
       createCardGoods();
-      createCardGoods();
-      createCardGoods();
 
     } else {
       toggleModalAuth();
     }  
   }  
-};
-
-const restaurantCardsItems = (data) => {
-  
-  const cardItem = {
-
-    name: '',
-    
-
-  };
-
 };
 
  
